@@ -1,0 +1,1228 @@
+{
+	"MODULES": [
+		{
+			"MODULE": "Commercial Goods",
+			"TAG_PREFIX": "Commercial",
+			"SEPARATOR": "-",
+			"DEFAULT_EMOJI":"🆕",
+			"ADDITIONAL_RULES": [
+				""
+			],
+			"ADDITIONAL_RULES_DEPRECATED": [
+				"- If a suitable tag for a shopping item is not listed in either tag list, you will set the tag for that shopping item to \"Miscellaneous\"."
+			],
+			"CATEGORIES": [
+				{
+					"TAG_BASENAME": "Art-Supplies",
+					"EMOJI": "🎨",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Oil Paint Set",
+							"id": "e63b1c8ae9b841f5b6d05e5c09a40a0d"
+						},
+						{
+							"item": "Watercolor Brushes",
+							"id": "2e8d8fe81529ec2b23018b6e36b3ec24"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "e63b1c8ae9b841f5b6d05e5c09a40a0d",
+							"tag": "<TAG-BASENAME>",
+							"item": "Oil Paint Set"
+						},
+						{
+							"id": "2e8d8fe81529ec2b23018b6e36b3ec24",
+							"tag": "<TAG-BASENAME>",
+							"item": "Watercolor Brushes"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Linens",
+					"EMOJI": "🧺",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Bed Sheets (Queen Size)",
+							"id": "ee708090228563a9d2e6197a7a82bf47"
+						},
+						{
+							"item": "Pillow Cases",
+							"id": "cef3fe07890e8978b003e725eaa7291d"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "ee708090228563a9d2e6197a7a82bf47",
+							"tag": "<TAG-BASENAME>",
+							"item": "Bed Sheets (Queen Size)"
+						},
+						{
+							"id": "cef3fe07890e8978b003e725eaa7291d",
+							"tag": "<TAG-BASENAME>",
+							"item": "Pillow Cases"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Camping",
+					"EMOJI": "⛺️",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Camping Tent",
+							"id": "0623a625036fc0385e358287023949da"
+						},
+						{
+							"item": "Sleeping Bag",
+							"id": "dcc4a9852009da1cc539e0f79a9943ae"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "0623a625036fc0385e358287023949da",
+							"tag": "<TAG-BASENAME>",
+							"item": "Camping Tent"
+						},
+						{
+							"id": "dcc4a9852009da1cc539e0f79a9943ae",
+							"tag": "<TAG-BASENAME>",
+							"item": "Sleeping Bag"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Entertainment",
+					"EMOJI": "🎮",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Super Mario Odysee game",
+							"id": "5c2e61ff3570c00d4bf93f1f60587cf0"
+						},
+						{
+							"item": "Dune movie",
+							"id": "d157ca1802638deb0bd1c323eab18e34"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "5c2e61ff3570c00d4bf93f1f60587cf0",
+							"tag": "<TAG-BASENAME>",
+							"item": "Super Mario Odysee game"
+						},
+						{
+							"id": "d157ca1802638deb0bd1c323eab18e34",
+							"tag": "<TAG-BASENAME>",
+							"item": "Dune movie"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Auto-Parts",
+					"EMOJI": "🏁",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Spark Plugs",
+							"id": "13e4caa94b8b50830da04835c9facdac"
+						},
+						{
+							"item": "Brake Pads",
+							"id": "bc2564f1f2b9cdb603495f0c7cc44d80"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "13e4caa94b8b50830da04835c9facdac",
+							"tag": "<TAG-BASENAME>",
+							"item": "Spark Plugs"
+						},
+						{
+							"id": "bc2564f1f2b9cdb603495f0c7cc44d80",
+							"tag": "<TAG-BASENAME>",
+							"item": "Brake Pads"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Textile",
+					"EMOJI": "🧵",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "5 yards of Denim Fabric",
+							"id": "42addc516632b43524cf8de76e7cd1c8"
+						},
+						{
+							"item": "Sewing Thread Set (Assorted Colors)",
+							"id": "6482886e4f2f6bb2a774e1dc5aefb784"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "42addc516632b43524cf8de76e7cd1c8",
+							"tag": "<TAG-BASENAME>",
+							"item": "5 yards of Denim Fabric"
+						},
+						{
+							"id": "6482886e4f2f6bb2a774e1dc5aefb784",
+							"tag": "<TAG-BASENAME>",
+							"item": "Sewing Thread Set (Assorted Colors)"
+						}
+					]
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Wall Art",
+							"id": "63695d9ee7a4b8e76f7db0725e26a5e7"
+						},
+						{
+							"item": "Decorative Throw Pillows",
+							"id": "536b0b1ef1d37ee0d53e0a3d57c2987f"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "63695d9ee7a4b8e76f7db0725e26a5e7",
+							"item": "Wall Art",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "536b0b1ef1d37ee0d53e0a3d57c2987f",
+							"item": "Decorative Throw Pillows",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Home-Decor",
+					"EMOJI": "🏺"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Seedling",
+							"id": "7f57756bcba6bb3d58ccedc3d7930557"
+						},
+						{
+							"item": "Watering Can",
+							"id": "6f3945ac420dc6d9aaca8ad8c4207ca6"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "7f57756bcba6bb3d58ccedc3d7930557",
+							"item": "Seedling",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "6f3945ac420dc6d9aaca8ad8c4207ca6",
+							"item": "Watering Can",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Gardening",
+					"EMOJI": "🌻"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Shoe Rack",
+							"id": "4f61a4cbece3b5b69db9be9a7c312cda"
+						},
+						{
+							"item": "Storage Bins",
+							"id": "c91a9c9c0d9c5bae0f6316d0a3f3be35"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "4f61a4cbece3b5b69db9be9a7c312cda",
+							"item": "Shoe Rack",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "c91a9c9c0d9c5bae0f6316d0a3f3be35",
+							"item": "Storage Bins",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Storage",
+					"EMOJI": "📦"
+				},
+				{
+					"TAG_BASENAME": "Bathroom-Supplies",
+					"EMOJI": "🚽",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Toilet Paper",
+							"id": "7d6a485b87758c28e1b20b8b2f62aeb3"
+						},
+						{
+							"item": "Shampoo",
+							"id": "c23a9083f8f1e70f285158c7923b5020"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "7d6a485b87758c28e1b20b8b2f62aeb3",
+							"tag": "<TAG-BASENAME>",
+							"item": "Toilet Paper"
+						},
+						{
+							"id": "c23a9083f8f1e70f285158c7923b5020",
+							"tag": "<TAG-BASENAME>",
+							"item": "Shampoo"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Beauty-Supplies",
+					"EMOJI": "💄",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Lipstick Set",
+							"id": "d7d6c2977e2ef6dab0f3b3f83c9b04d5"
+						},
+						{
+							"item": "Hairbrush with Natural Bristles",
+							"id": "2a59a5fbec370d3f8254e1b5b8c3cf54"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "d7d6c2977e2ef6dab0f3b3f83c9b04d5",
+							"tag": "<TAG-BASENAME>",
+							"item": "Lipstick Set"
+						},
+						{
+							"id": "2a59a5fbec370d3f8254e1b5b8c3cf54",
+							"tag": "<TAG-BASENAME>",
+							"item": "Hairbrush with Natural Bristles"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Books",
+					"EMOJI": "📚",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Artemis book",
+							"id": "52ea3aebc30e4731c25d2f5e30183f0b"
+						},
+						{
+							"item": "Harry Potter book",
+							"id": "a5e07b6a776ef2d62c9ca4f726b39f49"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "52ea3aebc30e4731c25d2f5e30183f0b",
+							"tag": "<TAG-BASENAME>",
+							"item": "Artemis book"
+						},
+						{
+							"id": "a5e07b6a776ef2d62c9ca4f726b39f49",
+							"tag": "<TAG-BASENAME>",
+							"item": "Harry Potter book"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Cleaners",
+					"EMOJI": "🧼",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "All-Purpose Cleaner",
+							"id": "7b8c2a6e81e5900a492e69a6d162b615"
+						},
+						{
+							"item": "Glass Cleaner Spray",
+							"id": "f7200a1d3727a36e14f29d2da11f44c5"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "7b8c2a6e81e5900a492e69a6d162b615",
+							"tag": "<TAG-BASENAME>",
+							"item": "All-Purpose Cleaner"
+						},
+						{
+							"id": "f7200a1d3727a36e14f29d2da11f44c5",
+							"tag": "<TAG-BASENAME>",
+							"item": "Glass Cleaner Spray"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Clothing",
+					"EMOJI": "👕",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Denim jacket",
+							"id": "17732b54528a3c16b6a8b4fecc3a19f2"
+						},
+						{
+							"item": "Graphic t-shirt",
+							"id": "1be645372f7c79d8f54e3db3f5e543da"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "17732b54528a3c16b6a8b4fecc3a19f2",
+							"tag": "<TAG-BASENAME>",
+							"item": "Denim jacket"
+						},
+						{
+							"id": "1be645372f7c79d8f54e3db3f5e543da",
+							"tag": "<TAG-BASENAME>",
+							"item": "Graphic t-shirt"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Electronics",
+					"EMOJI": "💻",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Laptop",
+							"id": "e7d3a9b2a8f4c19e62b2a9c87f3d6e51"
+						},
+						{
+							"item": "Bluetooth Speaker",
+							"id": "2f6e9a8d45b1c87e33f9a605d6b48a0d"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "e7d3a9b2a8f4c19e62b2a9c87f3d6e51",
+							"tag": "<TAG-BASENAME>",
+							"item": "Laptop"
+						},
+						{
+							"id": "2f6e9a8d45b1c87e33f9a605d6b48a0d",
+							"tag": "<TAG-BASENAME>",
+							"item": "Bluetooth Speaker"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "First-aid",
+					"EMOJI": "🩹",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Adhesive Bandages",
+							"id": "a3f4c38eb2e7bbfd63569721e9a795cd"
+						},
+						{
+							"item": "Antiseptic Wipes",
+							"id": "b08a620b6a692013d2e3b940e57942d0"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "a3f4c38eb2e7bbfd63569721e9a795cd",
+							"tag": "<TAG-BASENAME>",
+							"item": "Adhesive Bandages"
+						},
+						{
+							"id": "b08a620b6a692013d2e3b940e57942d0",
+							"tag": "<TAG-BASENAME>",
+							"item": "Antiseptic Wipes"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Furniture",
+					"EMOJI": "🛋️",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Sofa",
+							"id": "2f4028e3a9c3d742f5180f7c71cda0a5"
+						},
+						{
+							"item": "Coffee Table",
+							"id": "e72f521a6a49b5f3f4df2e208987cc0d"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "2f4028e3a9c3d742f5180f7c71cda0a5",
+							"tag": "<TAG-BASENAME>",
+							"item": "Sofa"
+						},
+						{
+							"id": "e72f521a6a49b5f3f4df2e208987cc0d",
+							"tag": "<TAG-BASENAME>",
+							"item": "Coffee Table"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Hardware",
+					"EMOJI": "🔧",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Screwdriver set",
+							"id": "4529c161ff50ed6e0e1a8f8f370f73ae"
+						},
+						{
+							"item": "Hammer",
+							"id": "19db12467171ac793a0337bf64744156"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "4529c161ff50ed6e0e1a8f8f370f73ae",
+							"tag": "<TAG-BASENAME>",
+							"item": "Screwdriver set"
+						},
+						{
+							"id": "19db12467171ac793a0337bf64744156",
+							"tag": "<TAG-BASENAME>",
+							"item": "Hammer"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Kitchen-Supplies",
+					"EMOJI": "🍽️",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Cutting Board",
+							"id": "d9b58b5364c07e542cb9d2e2c1fbb150"
+						},
+						{
+							"item": "Stainless Steel Mixing Bowls",
+							"id": "67c6c8f4ac700dbf15760837983aeb4d"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "d9b58b5364c07e542cb9d2e2c1fbb150",
+							"tag": "<TAG-BASENAME>",
+							"item": "Cutting Board"
+						},
+						{
+							"id": "67c6c8f4ac700dbf15760837983aeb4d",
+							"tag": "<TAG-BASENAME>",
+							"item": "Stainless Steel Mixing Bowls"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Lighting",
+					"EMOJI": "💡",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "LED Pendant Light",
+							"id": "320fde0bdf54a585df1d64e839c7c654"
+						},
+						{
+							"item": "Vintage Desk Lamp",
+							"id": "7e726a22f4f3b2f5e48e3b09730b4327"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "320fde0bdf54a585df1d64e839c7c654",
+							"tag": "<TAG-BASENAME>",
+							"item": "LED Pendant Light"
+						},
+						{
+							"id": "7e726a22f4f3b2f5e48e3b09730b4327",
+							"tag": "<TAG-BASENAME>",
+							"item": "Vintage Desk Lamp"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Lumber",
+					"EMOJI": "🪵",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "2x4 Pine Stud",
+							"id": "7242e3ea0e7dd571cc7d16f2c5d75d5a"
+						},
+						{
+							"item": "Plywood Sheet - 4x8",
+							"id": "87b4722079b9b05c62f6791f41603889"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "7242e3ea0e7dd571cc7d16f2c5d75d5a",
+							"tag": "<TAG-BASENAME>",
+							"item": "2x4 Pine Stud"
+						},
+						{
+							"id": "87b4722079b9b05c62f6791f41603889",
+							"tag": "<TAG-BASENAME>",
+							"item": "Plywood Sheet - 4x8"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Office-Supplies",
+					"EMOJI": "📁",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Sticky Notes",
+							"id": "239b741b7c88f7c0a66e0120aeb2e9d5"
+						},
+						{
+							"item": "Ballpoint Pens",
+							"id": "3a3dbf5c999e1e2155b51fcdac1c3da2"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "239b741b7c88f7c0a66e0120aeb2e9d5",
+							"tag": "<TAG-BASENAME>",
+							"item": "Sticky Notes"
+						},
+						{
+							"id": "3a3dbf5c999e1e2155b51fcdac1c3da2",
+							"tag": "<TAG-BASENAME>",
+							"item": "Ballpoint Pens"
+						}
+					]
+				},
+				{
+					"TAG_BASENAME": "Pharmacy",
+					"EMOJI": "💊",
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Pain Reliever Tablets",
+							"id": "d4ca9bc96c8c224c10a7d69350e3066d"
+						},
+						{
+							"item": "Cough Syrup",
+							"id": "f2f48b3c43d3e34a4f07ff2df2c7d4b0"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "d4ca9bc96c8c224c10a7d69350e3066d",
+							"tag": "<TAG-BASENAME>",
+							"item": "Pain Reliever Tablets"
+						},
+						{
+							"id": "f2f48b3c43d3e34a4f07ff2df2c7d4b0",
+							"tag": "<TAG-BASENAME>",
+							"item": "Cough Syrup"
+						}
+					]
+				}
+			]
+		},
+		{
+			"MODULE": "Groceries",
+			"TAG_PREFIX": "Groceries",
+			"SEPARATOR": "-",
+			"DEFAULT_EMOJI":"🆕",
+			"ADDITIONAL_RULES": [
+				"- If you find any eggs in the shopping list, you will use the \"Eggs\" supermarket section tag for them.",
+				"- If you find any tofu in the shopping list, you will use the \"Asian\" supermarket section tag for it.",
+				"- If you find any \"Lactaid\" in the shopping list, you will use the \"Dairy\" supermarket section tag for it.",
+				"- If you find any ramen in the shopping list, you will use the \"Ramen\" supermarket section tag for it."
+			],
+			"CATEGORIES": [
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Whiskey",
+							"id": "3e792e7e273e87ac325f0221b8a6cc6a"
+						},
+						{
+							"item": "Vodka",
+							"id": "96e7a37d619aa29c0de41a13016ac6d9"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "3e792e7e273e87ac325f0221b8a6cc6a",
+							"item": "Whiskey",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "96e7a37d619aa29c0de41a13016ac6d9",
+							"item": "Vodka",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Alcohol",
+					"EMOJI": "🍷"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Spicy Sriracha Ramen",
+							"id": "13ef006a794f696e58c5fb80d082b45c"
+						},
+						{
+							"item": "Miso Mushroom Ramen",
+							"id": "d5aba6cf0d82819a7a3b9e0e1028391f"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "13ef006a794f696e58c5fb80d082b45c",
+							"item": "Spicy Sriracha Ramen",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "d5aba6cf0d82819a7a3b9e0e1028391f",
+							"item": "Miso Mushroom Ramen",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Ramen",
+					"EMOJI": "🍥"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Salted Caramel Chocolate Truffles",
+							"id": "d84c4c62e3ecc4d24f3bf18868445780"
+						},
+						{
+							"item": "Fruity Gummy Rainbow Twists",
+							"id": "3f6f1f4e23652938f3619e4db5c11f23"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "d84c4c62e3ecc4d24f3bf18868445780",
+							"item": "Salted Caramel Chocolate Truffles",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "3f6f1f4e23652938f3619e4db5c11f23",
+							"item": "Fruity Gummy Rainbow Twists",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Candy",
+					"EMOJI": "🍬"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Croissants",
+							"id": "9e107d9d372bb6826bd81d3542a419d6"
+						},
+						{
+							"item": "Blueberry muffins",
+							"id": "098f6bcd4621d373cade4e832627b4f6"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "9e107d9d372bb6826bd81d3542a419d6",
+							"item": "Croissants",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "098f6bcd4621d373cade4e832627b4f6",
+							"item": "Blueberry muffins",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Bakery",
+					"EMOJI": "🥐"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Soy Sauce",
+							"id": "8b0e8dfc23a90a94e4ab5082e34474c7"
+						},
+						{
+							"item": "Sushi Nori",
+							"id": "2ce92c0d1cddc729f2b11e47b942dc2e"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "8b0e8dfc23a90a94e4ab5082e34474c7",
+							"item": "Soy Sauce",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "2ce92c0d1cddc729f2b11e47b942dc2e",
+							"item": "Sushi Nori",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Asian",
+					"EMOJI": "🌸"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Flour",
+							"id": "e859248ca8518da5db258be9cb56d0fd"
+						},
+						{
+							"item": "Sugar",
+							"id": "0f1d958c4ff9b79269eafeb1192fb27b"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "e859248ca8518da5db258be9cb56d0fd",
+							"item": "Flour",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "0f1d958c4ff9b79269eafeb1192fb27b",
+							"item": "Sugar",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Baking",
+					"EMOJI": "🍰"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Black Beans",
+							"id": "9046debaf2b8483e3223b08fc742935e"
+						},
+						{
+							"item": "Kidney Beans",
+							"id": "adc8e964811d36b8d4e63720fc350d85"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "9046debaf2b8483e3223b08fc742935e",
+							"item": "Black Beans",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "adc8e964811d36b8d4e63720fc350d85",
+							"item": "Kidney Beans",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Beans",
+					"EMOJI": "🌱"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Cola",
+							"id": "ecd8cb97219d2e1299faa4788c2451c1"
+						},
+						{
+							"item": "Orange Juice",
+							"id": "93927bd0505a422a3b93aa765ef9bd5c"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "ecd8cb97219d2e1299faa4788c2451c1",
+							"item": "Cola",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "93927bd0505a422a3b93aa765ef9bd5c",
+							"item": "Orange Juice",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Beverages",
+					"EMOJI": "🍹"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Whole Wheat Bread",
+							"id": "c13ab586c2b66988d2c36e6324c9e889"
+						},
+						{
+							"item": "Baguette",
+							"id": "80c23ff7b927a4f9562e2b0d1d24d0e5"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "c13ab586c2b66988d2c36e6324c9e889",
+							"item": "Whole Wheat Bread",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "80c23ff7b927a4f9562e2b0d1d24d0e5",
+							"item": "Baguette",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Bread",
+					"EMOJI": "🍞"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Canned Tomatoes",
+							"id": "9a1cf24b859ab2c8fde6a0e8f88ff4d1"
+						},
+						{
+							"item": "Canned Beans",
+							"id": "7c25e3d9164e83636c0d723d9c870f16"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "9a1cf24b859ab2c8fde6a0e8f88ff4d1",
+							"item": "Canned Tomatoes",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "7c25e3d9164e83636c0d723d9c870f16",
+							"item": "Canned Beans",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Canned-goods",
+					"EMOJI": "🥫"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Corn Flakes",
+							"id": "6a0d15a92f7c8ca11b4d7a9d5b77a0f3"
+						},
+						{
+							"item": "Oatmeal",
+							"id": "8b943693e0a688d84b670fb5f54b994c"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "6a0d15a92f7c8ca11b4d7a9d5b77a0f3",
+							"item": "Corn Flakes",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "8b943693e0a688d84b670fb5f54b994c",
+							"item": "Oatmeal",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Cereal",
+					"EMOJI": "🥣"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Ketchup",
+							"id": "77b0e91f3c47a7dfaa753cc35c17b4a5"
+						},
+						{
+							"item": "Mustard",
+							"id": "2534b8c3f5d3a3c36ef5b145b2a7b421"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "77b0e91f3c47a7dfaa753cc35c17b4a5",
+							"item": "Ketchup",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "2534b8c3f5d3a3c36ef5b145b2a7b421",
+							"item": "Mustard",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Condiments",
+					"EMOJI": "🍅"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Milk",
+							"id": "7815696ecbf1c96e6894b779456d330e"
+						},
+						{
+							"item": "Cheese",
+							"id": "6f8db417b816b8f7bbf3e5d0d5f1350f"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "7815696ecbf1c96e6894b779456d330e",
+							"item": "Milk",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "6f8db417b816b8f7bbf3e5d0d5f1350f",
+							"item": "Cheese",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Dairy",
+					"EMOJI": "🧀"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Organic Eggs",
+							"id": "79dfe3f92a2d152b0abff3dfabdcf9a1"
+						},
+						{
+							"item": "Free-Range Eggs",
+							"id": "453e16cf64be9f5b8c22d4d78906f42d"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "79dfe3f92a2d152b0abff3dfabdcf9a1",
+							"item": "Organic Eggs",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "453e16cf64be9f5b8c22d4d78906f42d",
+							"item": "Free-Range Eggs",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Eggs",
+					"EMOJI": "🥚"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Quinoa",
+							"id": "7d1c7c832f94d5f72b24873946ab3f59"
+						},
+						{
+							"item": "Brown Rice",
+							"id": "9c95f8ea9653f7f8c7329cc87dbd0f22"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "7d1c7c832f94d5f72b24873946ab3f59",
+							"item": "Quinoa",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "9c95f8ea9653f7f8c7329cc87dbd0f22",
+							"item": "Brown Rice",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Grains",
+					"EMOJI": "🌾"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Vanilla ice-cream",
+							"id": "4a6e07b62b371ed2eefcfb0c95cd610d"
+						},
+						{
+							"item": "Chocolate ice-cream",
+							"id": "7b6fe3e5734b3d4e29cf7a4e05f745d2"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "4a6e07b62b371ed2eefcfb0c95cd610d",
+							"item": "Vanilla ice-cream",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "7b6fe3e5734b3d4e29cf7a4e05f745d2",
+							"item": "Chocolate ice-cream",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Ice-cream",
+					"EMOJI": "🍦"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Chicken Breast",
+							"id": "b54a5e6a235ca577fd96173e2f9d0b5a"
+						},
+						{
+							"item": "Beef Steak",
+							"id": "c0f79932d079fa7d4534f7b2cc3b6ee2"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "b54a5e6a235ca577fd96173e2f9d0b5a",
+							"item": "Chicken Breast",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "c0f79932d079fa7d4534f7b2cc3b6ee2",
+							"item": "Beef Steak",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Meat",
+					"EMOJI": "🍖"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Spaghetti",
+							"id": "30dfd6bda1a32303ed9a15f585d8f3dc"
+						},
+						{
+							"item": "Fusilli",
+							"id": "6268b7ac7748b01952cd24836ee5a25d"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "30dfd6bda1a32303ed9a15f585d8f3dc",
+							"item": "Spaghetti",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "6268b7ac7748b01952cd24836ee5a25d",
+							"item": "Fusilli",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Pasta",
+					"EMOJI": "🍝"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Apples",
+							"id": "f8af5e6c54d20f5f5e32ce70455c94ab"
+						},
+						{
+							"item": "Bananas",
+							"id": "3e2c7e8242c4137f3f1c0cd006bed1dd"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "f8af5e6c54d20f5f5e32ce70455c94ab",
+							"item": "Apples",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "3e2c7e8242c4137f3f1c0cd006bed1dd",
+							"item": "Bananas",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Produce",
+					"EMOJI": "🍌"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Basmati Rice",
+							"id": "135c2f292d1c3b84456243fbbd9f18f8"
+						},
+						{
+							"item": "Jasmine Rice",
+							"id": "245b1d7e4e5272a1a8791bf88d15d014"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "135c2f292d1c3b84456243fbbd9f18f8",
+							"item": "Basmati Rice",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "245b1d7e4e5272a1a8791bf88d15d014",
+							"item": "Jasmine Rice",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Rice",
+					"EMOJI": "🍚"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Potato Chips",
+							"id": "a32e78a74dce09bc66f687c5a72b6487"
+						},
+						{
+							"item": "Popcorn",
+							"id": "51db289daa48c6f22753e923c65f8c18"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "a32e78a74dce09bc66f687c5a72b6487",
+							"item": "Potato Chips",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "51db289daa48c6f22753e923c65f8c18",
+							"item": "Popcorn",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Snacks",
+					"EMOJI": "🥜"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Tomato Soup",
+							"id": "c4ca4238a0b923820dcc509a6f75849b"
+						},
+						{
+							"item": "Chicken Noodle Soup",
+							"id": "c81e728d9d4c2f636f067f89cc14862c"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "c4ca4238a0b923820dcc509a6f75849b",
+							"item": "Tomato Soup",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "c81e728d9d4c2f636f067f89cc14862c",
+							"item": "Chicken Noodle Soup",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Soups",
+					"EMOJI": "🍲"
+				},
+				{
+					"EXAMPLE_INPUT": [
+						{
+							"item": "Cinnamon",
+							"id": "6f4e8c4aa6c0e0d5d48ed6d548b1590f"
+						},
+						{
+							"item": "Turmeric",
+							"id": "8c3d17a5434b156af9d8cc15c92e49d7"
+						}
+					],
+					"EXAMPLE_OUTPUT": [
+						{
+							"id": "6f4e8c4aa6c0e0d5d48ed6d548b1590f",
+							"item": "Cinnamon",
+							"tag": "<TAG-BASENAME>"
+						},
+						{
+							"id": "8c3d17a5434b156af9d8cc15c92e49d7",
+							"item": "Turmeric",
+							"tag": "<TAG-BASENAME>"
+						}
+					],
+					"TAG_BASENAME": "Spices",
+					"EMOJI": "🌿"
+				}
+			]
+		}
+	]
+}

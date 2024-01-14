@@ -1,0 +1,144 @@
+import  Shortcuts
+#Color: yellow
+#Icon:  star
+
+
+
+// <--- STYLE NOTES --->
+// <--- { Jellycuts Version: 1.4, iOS Version: 16 } --->
+
+// STYLE-5d9b: If-statement wrappers like this indent their contents in Shortcuts app UI and help visually distinguish macro sections from each other - this makes the shortcut as a whole more human-readable.
+
+// Note: Compiler will not generate comment actions in shortcut from single-line comments. Use multi-line comment blocks if you want compiler to generate comment actions (this allows us to keep comments for our shortcut and comments for our code separate).
+// Note: Reminder names (including lists) are prefaced with 'r-' (easy to miss in documentation).
+// NOTE-b5e1: While Jellycuts 1.4 will generate shortcuts on iOS 16, it officially supports iOS 15 actions, some of which have changed across major iOS releases. The "Find Reminders" action was available in iOS 15, however the ability to filter for lists was introduced in iOS 16. To have Jellycuts filter reminders based on list name, workaround is to do a "function call" to our own library that contains the newer version of the action.
+// NOTE-4967: Compiler generates Find Reminders action with "Limit" option enabled by default - Limit cannot be disabled by simply omitting it from jellycuts function call, nor can it be disabled by setting it to false (it simply gets set to zero reminders). It can be manually disabled in the action itself once shortcut is generated, but a better way is to just set limit to something ludicrously high (say, 100?).
+// NOTE-d0ba: Having jellycuts automatically type-cast some variables as reminders for us (so that we don't have to manually do it after the shortcut is generated) is particularly useful, however that cannot be done even manually if our reminders list is initially derived from a "Run Shortcut" action (we often use that action as "function calls" for actions that this version of jellycuts does not support generating). The workaround is to take the output of the initial Run Shortcut action and filter it once again, this time through a native Find Reminders action that jellycuts CAN generate (one without unsupported filters such as List - the "Is Not Completed" filter should be the only one you use), thus enforcing the Reminder type through the rest of the (massive) shortcut and preserving our initial list.
+// NOTE-1f95: Compiler currently supports generating Combine Text actions, but only with raw text as input (no variables/arrays, unfortunately). Workaround for passing variables rather than straight text is function call to our own library.
+// NOTE-33d0: Compiler does not support literal strings (like what shell scripting does with single-quotes), so regex strings in jellycuts codebase may require additional escape characters to preserve intended regex in final generated shortcut.
+// NOTE-50b1: Compiler has trouble generating if-else / "Otherwise" statements inside jelly macros (will technically generate "Otherwise" action-blocks, but with the contents of the _previous_ "Otherwise" statement). Workaround is to re-write any if-else statements inside jelly macros exclusively as if-statements.
+
+// <--- /STYLE NOTES --->
+
+
+
+// <--- COMPILER WARNINGS --->
+// <--- { Jellycuts Version: 1.4, iOS Version: 16 } --->
+
+// WARNING-12c1: Sigh... jelly really doesn't like setting second field of if-statement if it's a mutable text var. Workaround is autobuild patch.
+// WARNING-b34e: Compiler will sometimes add unnecessary hash suffix to magic var name. Current theory is this will happen if action is _global_ (read: un-nested) within a Jellycuts macro. Workaround is to nest action itself inside a dummy if-statement.
+// WARNING-f73b: Compiler does not like setting second field for if-statements against something type-cast outside what iOS shortcuts might think should be its "default" typing (such as file-typecast item), useful for comparing against a file's "Name" property (instead it will leave second field un-set), works better if Name property itself is extracted and saved as variable.
+// WARNING-8d27: Compiler _really_ wants at least one comment / line of code as "buffer" between (leading) nested if-statement and its parent conditional/loop (subsequent if-statements in the same nest-level are not affected, probably because the preceding nested if-statement is the "buffer" between them and the parent conditional/loop), complains about missing regex group otherwise...?
+// WARNING-b5bd: Compiler cannot find 'Show Reminder List' in the 'Shortcuts Standard' library for JellyCuts. :( Workaround is function call in our own library.
+// WARNING-bede: This version of compiler does not seem to support multiline strings, in contrast to online documentation (in-app documention however does not mention multi-line strings, suggesting feature may have been temporarily removed and online documentation is behind). Workaround (if you _really_ want multi-line strings) is to declare each line in its own string, add entries to array, and squash array through Combine Text action with newline charcters.
+// WARNING-9bf7: Find Reminders action will compile, but crashes the Shortcuts app when bringing in the generated shortcut if function call itself does not specify sortBy and order fields. Specifying them (even if not needed) prevents Shortcuts from crashing like this.
+// WARNING-ee09: Compiler will create shortcut if dictionaries are explicitly type-cast here as such, and the shortcut actions will even appear correctly set, but the shortcut will randomly error-out and claim it cannot convert numbers/bools,etc to dictionaries...??? Workaround is to either not type-cast at all while grabbing keys (jellycuts allows this, thankfully), or in the bugged action, go into the dictionary call and -"kick" the key you're trying to pull (by temporarily renaming it).
+
+// <--- /COMPILER WARNINGS --->
+
+
+
+/* (Note: In addition to allowing input to be passed to this shortcut, the above 'Receive ___ input from ___' statement also controls share sheet visibility. This shortcut is not intended for share sheet use, so it is set to 'No' and 'Nowhere' to keep it from appearing in share sheets.) */
+
+/* Description: The layout for this shortcut's Jelly codebase is recommended for anyone wanting to write code that is macro-centric while still being (somewhat) human-readable in shortcut-form. Bash-style shell scripting (a central main "function" that describes the script as a whole, "local" variables prefixed with underscores, etc) is the main inspiration for the layout. */
+
+/*
+
+************************
+*    Section: SETUP    *
+************************
+
+*/
+
+/* Declare constants. */
+
+dictionary(json: {"LIST_NAME":"Shopping","VERBOSE":true}) >> GLOBALS
+
+/* (Constant: NIL) */
+text(text: "") >> NIL
+
+/* Declare variables. */
+
+/* (Boilerplate vars) */
+
+/* (Note: c = (c)ondition) */
+var c = NIL
+var MacroInput = NIL
+var MacroMetadata = NIL
+var MacroOutput = NIL
+var Message = NIL
+var ssxTricky = 
+
+// Main logic
+macro main() {
+
+	/*
+
+	***********************
+	*    Section: MAIN    *
+	***********************
+
+	*/
+
+	getRemindersList(GLOBALS.key(LIST_NAME))
+
+	showArray(MacroOutput)
+
+}
+
+// Get items from Apple Reminders list
+macro getRemindersList(MacroInput) {
+
+	var _RemindersArray = NIL
+	var _RemindersListName = NIL
+
+	_RemindersListName = MacroInput
+
+	c = GLOBALS.key(VERBOSE)
+	if (c.as(Boolean)) {
+
+		Message = "Reminders list name: ${_RemindersListName}"
+
+		quicklook(input: Message)
+
+	}
+
+	MacroMetadata = _RemindersListName
+	/* MACRO_Get_Reminders_List */
+
+	_RemindersArray = MacroOutput
+
+	c = GLOBALS.key(VERBOSE)
+	if (c.as(Boolean)) {
+
+		count(type: Items, input: _RemindersArray) >> MAIN_RemindersArrayCount
+
+		Message = "Number of items returned from list: ${MAIN_RemindersArrayCount}"
+
+		quicklook(input:Message)
+
+	}
+
+	MacroOutput = _RemindersArray
+
+}
+
+// Print array of Apple Reminder items
+macro showArray(MacroInput) {
+
+	var _Array = NIL
+	var _RemindersText = NIL
+
+	_Array = MacroInput
+
+	MacroInput = _Array
+	/* MACRO_Combine_Text_16_New_Lines */
+
+	_RemindersText = MacroOutput
+
+	quicklook(input: _RemindersText)
+
+}
+
+// Run shortcut
+main()

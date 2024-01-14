@@ -1,0 +1,1713 @@
+import  Shortcuts
+#Color: tangerine
+#Icon:  apple
+
+// single-instance macros
+
+macro init() {
+
+	/* (WARNING-b34e workaround) */
+
+	if(RUN.as(Boolean)) {
+
+		// foobar (WARNING-8d27 workaround)
+
+		if(ShortcutInput == nil) {
+
+			/*
+			
+			User has run shortcut (we expect no input to have been passed, "Categorize (new) shopping items" option will search Reminders to build initial list to process).
+			
+			*/
+
+			var Mode = "USER"
+
+			/* Globals. */
+
+			dictionary(json: {"CONFIRM_DIALOG":true,"FALSE":0,"MODE":"${Mode}","NEWLINE":"\r\n","NIL":"","REMINDERS_CHUNK_SIZE":10,"REMINDERS_LIST_NAME":"Shopping","SHORTCUT_PATH":"usr/opt/categorize-shopping","TRUE":1,"CONFIG_FILENAME_NO_EXT":"config","CONFIG_FILENAME_FULL":"config.json","EVENT_LEVEL_FILTER":0,"EMOJI_DICT":{"right_arrow_curving_left":"↩️"},"PROMPT_OUTLINE_FILENAME_NO_EXT":"prompt.categorize-shopping","PROMPT_OUTLINE_FILENAME_FULL":"prompt.categorize-shopping.md"}) >> _DICT_c9c4
+
+			var GLOBALS = _DICT_c9c4
+
+		}
+
+		if(ShortcutInput != nil) {
+
+			/*
+			
+			Shortcut has run itself (we expect input to have been passed, an array of Reminders - "Categorize (new) shopping items" option will continue processing that, effectively picking up where we left off).
+			
+			*/
+
+			var Mode = "BATCH"
+
+			/* Inherit globals from parent process (positional parameter). */
+
+			// break - you don't really need this anymore
+
+			getItemFromList(list: ShortcutInput, type: Item At Index, index: 1) >> _DICT_c6b1
+
+			setValue(key: "MODE", value: "${Mode}", dictionary: _DICT_c6b1) >> _DICT_a7df
+
+			var GLOBALS = _DICT_a7df
+
+		}
+
+		/*
+
+		Log levels.
+
+		3:TRACE	= See ChatGPT prompt, response, status messages, vars.
+		2:INFO	= See ChatGPT prompt, response, status messages.
+		1:GPT	= See ChatGPT prompt, response.
+		0		= (Logging disabled.)
+
+		*/
+
+		/*
+
+		[Boilerplate vars]
+
+		(a)rray
+		(c)ondition: used for type-casting dictionary values as booleans in conditionals (Jellycuts 1.4)
+		(d)ictionary
+		(in)put
+		(meta)data: used for auto-build actions that require extra input of different types
+		(n)umber
+		(out)put
+		(s)tring
+
+		*/
+
+		var a = GLOBALS.key(NIL)
+		var a0 = GLOBALS.key(NIL)
+		var a1 = GLOBALS.key(NIL)
+		var a2 = GLOBALS.key(NIL)
+		var c = GLOBALS.key(NIL)
+		var d = GLOBALS.key(NIL)
+		var in = GLOBALS.key(NIL)
+		var MacroName = GLOBALS.key(NIL)
+		var meta = GLOBALS.key(NIL)
+		var n = GLOBALS.key(NIL)
+		var out = GLOBALS.key(NIL)
+		var s = GLOBALS.key(NIL)
+
+		/* Aliases. */
+
+		var ELF = GLOBALS.key(EVENT_LEVEL_FILTER)
+		var EMOJI_DICT = GLOBALS.key(EMOJI_DICT)
+		var f = GLOBALS.key(FALSE)
+		var FALSE = GLOBALS.key(FALSE)
+		var m = GLOBALS.key(MODE)
+		var n = GLOBALS.key(NEWLINE)
+		var NIL = GLOBALS.key(NIL)
+		var t = GLOBALS.key(TRUE)
+		var TRUE = GLOBALS.key(TRUE)
+
+		/* Switches. */
+
+		var Elf = GLOBALS.key(EVENT_LEVEL_FILTER)
+		var LongString = GLOBALS.key(FALSE)
+
+		/* Special vars. */
+
+		/* ATN_setNULL */
+
+		var NULL = out
+
+		/* Generate shortcut folder if not already present. */
+
+		getFile(picker: false, path: "${GLOBALS.key(SHORTCUT_PATH)}", error: false, multiple: false) >> _FILE_d36d
+
+		if(_FILE_d36d.as(File) == nil) {
+
+			alert(alert: "Shortcut folder not found: Generating setup files...", title: "", cancel: false)
+
+			/* ATN_setDefaultConfig */
+			var _default_config = out
+
+			/* ATN_setDefaultPromptOutline */
+			var _default_prompt_outline = out
+
+			// shortcut folder
+			createFolder(path: "${GLOBALS.key(SHORTCUT_PATH)}") >> _FILE_f7d2
+
+			// config
+			saveFile(input: _default_config, ask: false, path: "${GLOBALS.key(SHORTCUT_PATH)}/${GLOBALS.key(CONFIG_FILENAME_FULL)}", overwrite: false) >> _FILE_75f3
+
+			// prompt outline
+			saveFile(input: _default_prompt_outline, ask: false, path: "${GLOBALS.key(SHORTCUT_PATH)}/${GLOBALS.key(PROMPT_OUTLINE_FILENAME_FULL)}", overwrite: false) >> _FILE_095c
+
+		}
+
+	}
+
+}
+
+macro getRawShoppingList() {
+
+	if(RUN.as(Boolean)) {
+
+		MacroName = "getRawShoppingList"
+
+		if(FromNew.as(Boolean)) {
+
+			in = GLOBALS.key(REMINDERS_LIST_NAME)
+
+			/* ATN_getRemindersList */
+
+			var _reminders_all = out
+
+			/* Remove any shopping items from memory that have already been categorized. */
+
+			a = _reminders_all
+
+			repeatEach(MODULES_ARRAY) {
+
+				// level 2
+
+				var _module = RepeatItem2
+				var _tag_prefix = _module.key(TAG_PREFIX)
+
+				in = a
+				meta = _tag_prefix
+
+				/* ATN_filterRemindersNotTag */
+
+				a = out
+
+			}
+
+			/* Remove any shopping items from memory that have been tagged as "ignore". */
+
+			in = a
+			meta = "ignore"
+
+			/* ATN_filterRemindersNotTag */
+
+			a = out
+
+		}
+
+		if(FromAll.as(Boolean)) {
+
+			in = GLOBALS.key(REMINDERS_LIST_NAME)
+
+			/* ATN_getRemindersList */
+
+			a = out
+
+		}
+
+		if(FromMemory.as(Boolean)) {
+
+			/* No alert, just use the array of reminders passed to this shortcut (separate from inherited settings dict first!). */
+
+			a = NULL
+
+			repeatEach(ShortcutInput) {
+
+				// level 2
+
+				getType(input: RepeatItem2) >> _TYPE_6760
+
+				if(_TYPE_6760.as(Text) == "Reminder") {
+
+					var a += RepeatItem2
+
+				}
+
+			}
+
+		}
+
+		/* Count items in list/array, exit if zero (read: check if there's shopping items to process). */
+
+		count(type: Items, input: a) >> _REMINDERS_ARRAY_COUNT
+
+		if(_REMINDERS_ARRAY_COUNT.as(Number) == 0) {
+
+			playSound()
+
+			alert(alert: "No items to process!", title: NIL, cancel: false)
+
+			Continue = f
+
+		}
+
+		var RAW_SHOPPING_LIST = a
+
+	}
+
+}
+
+macro loadConfigFiles() {
+
+	if (RUN.as(Boolean)) {
+
+		MacroName = "loadConfigFiles"
+
+		/* Read: Get unique item identifier via relative path, which happens to work for folders as well as files despite 'Get file...' action name (the later 'Get contents of folder' action does not accept path strings). */
+
+		getFile(picker: false, path: "${GLOBALS.key(SHORTCUT_PATH)}", error: true, multiple: false) >> SHORTCUT_FOLDER
+
+		in = SHORTCUT_FOLDER
+
+		/* ATN_getFolderContents */
+
+		var FILES = out
+
+		in = FILES
+		meta = GLOBALS.key(CONFIG_FILENAME_NO_EXT)
+
+		/* ATN_filterFilesNameIs */
+
+		var CONFIG_FILE = out
+
+		test(CONFIG_FILE)
+
+		getDictionaryFrom(input: CONFIG_FILE) >> CONFIG_DICT
+
+		var MODULES_ARRAY = CONFIG_DICT.key(MODULES)
+
+	}
+
+}
+
+macro getRawChunk() {
+
+	if(RUN.as(Boolean)) {
+
+		var MacroName = "getRawChunk"
+		var a1 = NULL
+		var a2 = NULL
+		var _RemindersChunkSize = GLOBALS.key(REMINDERS_CHUNK_SIZE)
+
+		if(ConfirmDialog.as(Boolean)) {
+
+			showConfirmDialog()
+
+		}
+
+		count(type: Items, input: RAW_SHOPPING_LIST) >> REMINDER_ARRAY_SIZE
+
+		calculate(input: "${REMINDER_ARRAY_SIZE.as(Number)} - ${_RemindersChunkSize.as(Number)}") >> REMAINDER_COUNT
+
+		if(REMAINDER_COUNT.as(Number) <= 5) {
+
+			/* Just process the whole list (set chunk size to current reminder array size). */
+
+			_RemindersChunkSize = REMINDER_ARRAY_SIZE
+
+		}
+
+		repeatEach(RAW_SHOPPING_LIST) {
+
+			// level 2
+
+			/* Populate current chunk with items up to chunk size limit. */
+
+			if(RepeatIndex2.as(Number) <= _RemindersChunkSize.as(Number)) {
+
+				var a1 += RepeatItem2
+
+			}
+
+			/* Get item remainder. */
+
+			if(RepeatIndex2.as(Number) > _RemindersChunkSize.as(Number)) {
+
+				var a2 += RepeatItem2
+
+			}
+
+		}
+
+		var RAW_CHUNK = a1
+		var RAW_REMAINDERS = a2
+
+		in = RAW_CHUNK
+
+		/* ATN_combineTextNewLines */
+
+		in = RAW_REMAINDERS
+
+		/* ATN_combineTextNewLines */
+
+	}
+
+}
+
+macro assignChunkItemIDs() {
+
+	if(RUN.as(Boolean)) {
+
+		MacroName = "assignChunkItemIDs"
+		a1 = NULL
+
+		in = RAW_CHUNK
+
+		/* ATN_combineTextNewLines */
+
+		repeatEach(RAW_CHUNK) {
+
+			// level 2
+
+			hash(input: RepeatItem2, type: MD5) >> _RAW_CHUNK_ITEM_HASH
+
+			in = RepeatItem2
+			meta = _RAW_CHUNK_ITEM_HASH
+
+			/* ATN_setReminderNotes */
+
+			var a1 += out
+
+		}
+
+		var ASSIGNED_CHUNK_ITEMS = a1
+
+	}
+
+}
+
+macro getPromptOutline() {
+
+	if(RUN.as(Boolean)) {
+
+		MacroName = "getPromptOutline"
+
+		filterFiles(input: FILES, filterType: All, filter: { Name : == : "prompt.categorize-shopping" }, sortBy: Creation Date, order: Oldest First, limit: 999) >> _PROMPT_OUTLINE_FILE
+		
+		getTextFrom(input: _PROMPT_OUTLINE_FILE) >> PROMPT_OUTLINE
+
+	}
+
+}
+
+macro getPromptExampleInput() {
+
+	if(RUN.as(Boolean)) {
+
+		var MacroName = "getPromptExampleInput"
+		var _categories_array = NULL
+		var _example_input_array = NULL
+
+		repeatEach(MODULES_ARRAY) {
+
+			// level 2
+
+			var _module = RepeatItem2
+			var _categories_array += _module.key(CATEGORIES)
+
+		}
+
+		repeatEach(_categories_array) {
+
+			// level 2
+
+			var _category = RepeatItem2
+			var _example_input_array += _category.key(EXAMPLE_INPUT)
+
+		}
+
+		in = _example_input_array
+		meta = ","
+
+		/* ATN_combineTextCustom */
+
+		text(text: "{ \"SHOPPING_LIST\": [ ${out} ] }") >> _TEXT_7dae
+
+		var PROMPT_EXAMPLE_INPUT = _TEXT_7dae
+
+	}
+
+}
+
+macro getPromptExampleOutput() {
+
+	if(RUN.as(Boolean)) {
+
+		var MacroName = "getPromptExampleOutput"
+		var _example_output_array = NULL
+
+		repeatEach(MODULES_ARRAY) {
+
+			// level 2
+
+			var _categories_array = RepeatItem2.key(CATEGORIES)
+
+			repeatEach(_categories_array) {
+
+				// level 3
+
+				repeatEach(RepeatItem3.key(EXAMPLE_OUTPUT)) {
+
+					// level 4
+
+					replaceText(input: "${RepeatItem4}",		find: "<TAG-PREFIX>",	replace: "${RepeatItem2.key(TAG_PREFIX)}",		isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_16bc
+					replaceText(input: "${_UPDATED_TEXT_16bc}",	find: "<SEPARATOR>",	replace: "${RepeatItem2.key(SEPARATOR)}",		isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_ba8e
+					replaceText(input: "${_UPDATED_TEXT_ba8e}",	find: "<TAG-BASENAME>",	replace: "${RepeatItem3.key(TAG_BASENAME)}",	isRegex: false, caseSensitive: false) >> _JSON_STRING_d441
+
+					var _example_output_array += _JSON_STRING_d441
+
+				}
+
+			}
+
+		}
+
+		in = _example_output_array
+		meta = ","
+
+		/* ATN_combineTextCustom */
+
+		text(text: "{\"SHOPPING_LIST\":[${out}]}") >> PROMPT_EXAMPLE_OUTPUT
+
+		/* JSON string sanity check. */
+
+		getDictionaryFrom(input: PROMPT_EXAMPLE_OUTPUT) >> _DICT_55ab
+
+		if(_DICT_55ab == nil) {
+
+			playSound()
+
+			alert(alert: "JSON sanity check failed, terminating.", title: NIL, cancel: false)
+
+			exit(var: NIL)
+
+		}
+
+	}
+
+}
+
+macro getPromptTagNames() {
+
+	if(RUN.as(Boolean)) {
+
+		var MacroName = "getPromptTagNames"
+		var _tag_array = NULL
+
+		repeatEach(MODULES_ARRAY) {
+
+			// level 2
+
+			var _categories_array = RepeatItem2.key(CATEGORIES)
+
+			repeatEach(_categories_array) {
+
+				// level 3
+
+			/*	var _tag_prefix = RepeatItem2.key(TAG_PREFIX) */
+			/*	var _separator = RepeatItem2.key(SEPARATOR) */
+				var _tag_basename = RepeatItem3.key(TAG_BASENAME)
+
+			/*	text(text: "${_tag_prefix}${_separator}${_tag_basename}") >> _TAG_NAME_COMPLETE */
+				text(text: "${_tag_basename}") >> _TAG_NAME_COMPLETE
+				
+				var _tag_array += _TAG_NAME_COMPLETE
+
+			}
+
+		}
+
+		in = _tag_array
+
+		/* ATN_combineTextNewLines */
+
+		var PROMPT_TAG_NAMES = out
+
+	}
+
+}
+
+macro getPromptFormattedChunk() {
+
+	if(RUN.as(Boolean)) {
+
+		var MacroName = "getPromptFormattedChunk"
+		var a = NULL
+		var _categories_array = NULL
+		var _emoji_array = NULL
+
+		repeatEach(MODULES_ARRAY) {
+
+			// level 2
+
+			var _categories_array += RepeatItem2.key(CATEGORIES)
+			var _emoji_array += RepeatItem2.key(DEFAULT_EMOJI)
+
+		}
+
+		repeatEach(_categories_array) {
+
+			var _emoji_array += RepeatItem2.key(EMOJI)
+
+		}
+
+		repeatEach(ASSIGNED_CHUNK_ITEMS) {
+
+			// level 2
+
+			/* Strip title prefix/emoji (if any) for promp later. */
+
+			var _title = RepeatItem2.get(Title)
+			var _title_basename = _title
+
+			repeatEach(_emoji_array) {
+
+				// level 3
+
+				var _emoji = "${RepeatItem3}"
+
+				/* search for emoji _followed by space character_ */
+
+				replaceText(input: "${_title_basename}", find: "${_emoji} ", replace: "", isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_3ccd
+
+				var _title_basename = _UPDATED_TEXT_3ccd
+
+			}
+
+			/* Retrieve unique id saved earlier in reminder's note field. */
+
+			reminderDetail(detail: Notes, reminder: RepeatItem2) >> _HASH_deac
+
+			var _id = _HASH_deac
+
+			text(text: "{ \"item\": \"${_title_basename}\", \"id\": \"${_id}\" }") >> _FORMATTED_ITEM
+
+			var a += _FORMATTED_ITEM
+
+		}
+
+		in = a
+		meta = ","
+
+		/* ATN_combineTextCustom */
+
+		text(text: "{ \"SHOPPING_LIST\": [ ${out} ] }") >> _TEXT_3141
+
+		var PROMPT_FORMATTED_CHUNK = _TEXT_3141
+
+	}
+
+}
+
+macro buildPrompt() {
+
+	if(RUN.as(Boolean)) {
+
+		var MacroName = "buildPrompt"
+		var _word_limit = 1500
+
+		replaceText(input: PROMPT_OUTLINE,		find: "<EXAMPLE-INPUT>",	replace: PROMPT_EXAMPLE_INPUT,		isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_1040
+		replaceText(input: _UPDATED_TEXT_1040,	find: "<EXAMPLE-OUTPUT>",	replace: PROMPT_EXAMPLE_OUTPUT,		isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_05e6
+		replaceText(input: _UPDATED_TEXT_05e6,	find: "<SHOPPING-LIST>",	replace: PROMPT_FORMATTED_CHUNK,	isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_9102
+		replaceText(input: _UPDATED_TEXT_9102,	find: "<TAG-LIST>",			replace: PROMPT_TAG_NAMES,			isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_39e9
+		replaceText(input: _UPDATED_TEXT_39e9,	find: "<ADDITIONAL-RULES>",	replace: PROMPT_ADDITIONAL_RULES,	isRegex: false, caseSensitive: false) >> PROMPT
+
+		/* Make sure prompt does not overload ChatGPT (set word limit approximate to token limit) */
+
+		count(type: Words, input: PROMPT) >> _PROMPT_WORD_COUNT
+
+		if(_PROMPT_WORD_COUNT.as(Number) > _word_limit.as(Number)) {
+
+			playSound()
+
+			s = "********** WARNING **********${n}${n}Assembled prompt longer than ${_word_limit} words (${_PROMPT_WORD_COUNT})! May excede ChatGPT input token limit (too many example input objects is usually the cause)."
+
+			alert(alert: s, title: NIL, cancel: false)
+
+		}
+
+	}
+
+}
+
+macro askChatGPT() {
+
+	if(RUN.as(Boolean)) {
+
+		MacroName = "askChatGPT"
+
+		s = "Asking ChatGPT to assign tags to shopping items (this may take a minute)..."
+
+		logInfo(s)
+
+		LongString = t
+
+		s = "Prompt:${n}${n}${PROMPT}"
+
+		logGPT(s)
+
+		in = PROMPT
+
+		/* ATN_askChatGPT */
+
+		/* Save response for exit on error. */
+
+		var _response = out
+
+		LongString = t
+
+		s = "ChatGPT response:${n}${n}${_response}"
+
+		logGPT(s)
+
+		/* Post-processing: Just on the off-chance that ChatGPT gives us a raw JSON string with no markdown formatting (happened at least once in testing), it's handled here (the Get Dictionary action will produce valid output, and regex matching for triple-backticks will be skipped). */
+
+		getDictionaryFrom(input: _response) >> _DICT_7a57
+
+		if(_DICT_7a57 != nil) {
+
+			var TAGGED_CHUNK_DICT = _DICT_7a57
+
+		}
+
+		/* else */
+
+		if(_DICT_7a57 == nil) {
+
+			/* Probably dealing with markdown in ChatGPT's response. */
+
+			text(text: "(?s)(?<=```json\n).*?(?=\n```)") >> _ICU_REGEX_efc5
+
+			matchText(text: "${_response}", regex: "${_ICU_REGEX_efc5}", caseSensitive: true) >> _MATCHES_95c8
+
+			/* Second attempt to validate JSON data before we use it to tag our shopping list. */
+
+			getDictionaryFrom(input: _MATCHES_95c8) >> _DICT_dff4
+
+			if(_DICT_dff4 != nil) {
+
+				var TAGGED_CHUNK_DICT = _DICT_dff4
+
+			}
+
+			/* else */
+
+			if(_DICT_dff4 == nil) {
+
+				playSound()
+
+				alert(alert: "Final JSON sanity check failed, terminating...", title: NIL, cancel: false)
+
+				quicklook(input: _response)
+
+				exit(var: NIL)
+
+			}
+
+			var _shopping_item_array = TAGGED_CHUNK_DICT.key(SHOPPING_LIST)
+
+			if(_shopping_item_array.as(Text) == nil) {
+
+				playSound()
+
+				alert(alert: "SHOPPING_LIST key not present, terminating...", title: NIL, cancel: false)
+
+				quicklook(input: _response)
+
+				exit(var: NIL)
+
+			}
+
+		}
+
+	}
+
+}
+
+macro tagChunkItems() {
+
+	if(RUN.as(Boolean)) {
+
+		var MacroName = "tagChunkItems"
+		var a = NULL
+		var _shopping_item_array = TAGGED_CHUNK_DICT.key(SHOPPING_LIST)
+
+		repeatEach(MODULES_ARRAY) {
+
+			// level 2
+
+			var _categories_array += RepeatItem2.key(CATEGORIES)
+			var _emoji_array += RepeatItem2.key(DEFAULT_EMOJI)
+
+		}
+
+		repeatEach(_categories_array) {
+
+			// level 2
+
+			var _emoji_array += RepeatItem2.key(EMOJI)
+
+		}
+
+		repeatEach(_shopping_item_array) {
+
+			// level 2
+
+			/* Default values. */
+
+			var _tag_prefix = "Commercial"
+			var _separator = "-"
+
+			/* Search for matching unique id among reminders in memory. */
+
+			in = ASSIGNED_CHUNK_ITEMS
+			meta = RepeatItem2.key(id)
+
+			/* ATN_filterRemindersNotes */
+
+			var _r = out
+
+			/* Remove old reminder title prefix (if any), add new. */
+
+			var _title = _r.get(Title)
+			var _title_basename = _title
+			var _tag_basename = RepeatItem2.key(tag)
+
+			repeatEach(_emoji_array) {
+
+				// level 3
+
+				var _emoji = RepeatItem3
+
+				/* find emoji _followed by space character_ */
+
+				replaceText(input: "${_title_basename}", find: "${_emoji} ", replace: "", isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_9709
+
+				_title_basename = _UPDATED_TEXT_9709
+
+			}
+
+			/* Add emoji as title prefix (for easier sorting/grouping in Reminders app). */
+
+			/* (default title prefix emoji that indicates potential need for new category definition) */
+
+			var _emoji = "${CONFIG_DICT.key(MODULES.1.DEFAULT_EMOJI)}"
+
+			repeatEach(MODULES_ARRAY) {
+
+				// level 3
+
+				_categories_array = RepeatItem3.key(CATEGORIES)
+
+				repeatEach(_categories_array) {
+
+					// level 4
+
+					/* Search for item's assigned tag (basename-form) in config, return found category's emoji. */
+
+					var c1 = "${RepeatItem2.key(tag)}"
+					var c2 = "${RepeatItem4.key(TAG_BASENAME)}"
+
+					/* (WARNING-12c1 workaround) */
+
+					/* PATCH_09a5 */
+
+				}
+
+			}
+
+			_title = "${_emoji} ${_title_basename}"
+
+			in = _r
+			meta = _title
+
+			/* ATN_setReminderTitle */
+
+			in = out
+
+			/* ATN_removeReminderTags */
+
+			in = out
+			meta = "${_tag_prefix}${_separator}${_tag_basename}"
+
+			/* ATN_addReminderTag */
+
+			in = out
+
+			/* ATN_removeReminderNotes */
+
+			var a += out
+
+		}
+
+		var TAGGED_CHUNK_ITEMS = a
+
+	}
+
+}
+
+macro endStep() {
+
+	if(RUN.as(Boolean)) {
+
+		MacroName = "end"
+
+		in = RAW_REMAINDERS
+
+		/* ATN_combineTextNewLines */
+
+		if(RAW_REMAINDERS != nil) {
+
+			c = GLOBALS.key(CONFIRM_DIALOG)
+
+			if(c.as(Boolean)) {
+
+				count(type: Items, input: RAW_REMAINDERS) >> _RAW_REMAINDERS_COUNT
+
+				s = "${_RAW_REMAINDERS_COUNT} items left to process (making another ChatGPT call)..."
+
+				alert(alert: s, title: NIL, cancel: false)
+
+			}
+
+			var in  = Globals
+			var in += RAW_REMAINDERS
+
+			runShortcut(name: "Categorize Shopping", input: in, show: false)
+
+		}
+
+		/* else */
+
+		if(RAW_REMAINDERS == nil) {
+
+			playSound()
+
+			alert(alert: "Finished!", title: NIL, cancel: false)
+
+		}
+
+	}
+
+}
+
+macro getPromptAdditionalRules() {
+
+	if(RUN.as(Boolean)) {
+
+		MacroName = "getPromptAdditionalRules"
+		a = NULL
+
+		repeatEach(MODULES_ARRAY) {
+
+			// level 2
+
+			repeatEach(RepeatItem2.key(ADDITIONAL_RULES)) {
+
+				// level 3
+
+				replaceText(input: "${RepeatItem3}",		find: "<TAG-PREFIX>",	replace: "${RepeatItem2.key(TAG_PREFIX)}",	isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_b900
+				replaceText(input: "${_UPDATED_TEXT_b900}",	find: "<SEPARATOR>",	replace: "${RepeatItem2.key(SEPARATOR)}",	isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_6c5b
+
+				var a += _UPDATED_TEXT_6c5b
+
+			}
+
+		}
+
+		in = a
+
+		/* ATN_combineTextNewLines */
+
+		var PROMPT_ADDITIONAL_RULES = out
+
+	}
+
+}
+
+macro removePrefixes(_reminders_array) {
+
+	if(RUN.as(Boolean)) {
+
+		MacroName = "removePrefixes"
+		a = NULL
+
+		/* Strip any title prefixes (emoji) from reminders in memory. */
+
+		repeatEach(MODULES_ARRAY) {
+
+			// level 2
+
+			var _categories_array += RepeatItem2.key(CATEGORIES)
+			var _emoji_array += RepeatItem2.key(DEFAULT_EMOJI)
+
+		}
+
+		repeatEach(_categories_array) {
+
+			// level 2
+
+			var _emoji_array += RepeatItem2.key(EMOJI)
+
+		}
+
+		repeatEach(_reminders_array) {
+
+			// level 2
+
+			var _reminder = RepeatItem2
+			var _title = RepeatItem2.get(Title)
+			var _title_basename = _title
+
+			repeatEach(_emoji_array) {
+
+				// level 3
+
+				var _emoji = "${RepeatItem3}"
+
+				/* find emoji _followed by space character_ */
+
+				replaceText(input: "${_title_basename}", find: "${_emoji} ", replace: "", isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_06fb
+
+				var _title_basename = _UPDATED_TEXT_06fb
+
+			}
+
+			in = _reminder
+			meta = _title_basename
+
+			/* ATN_setReminderTitle */
+
+			var a += out
+
+		}
+
+		out = a
+
+	}
+
+}
+
+macro addPrefixes(_reminders_array) {
+
+	if(RUN.as(Boolean)) {
+
+		var MacroName = "addPrefixes"
+		var a = NULL
+		var _categories_array = NULL
+		var _tag_prefix_array = NULL
+
+		/* search for tag likely generated by this shortcut */
+
+		repeatEach(MODULES_ARRAY) {
+
+			// level 2
+
+			var _module = RepeatItem2
+
+			text(text: "${_module.key(TAG_PREFIX)}${_module.key(SEPARATOR)}") >> _TEXT_e3f8
+
+			var _categories_array += _module.key(CATEGORIES)
+			var _tag_prefix_array += _TEXT_e3f8
+
+		}
+
+		repeatEach(_reminders_array) {
+
+			// level 2
+
+			var _reminder = RepeatItem2
+
+			reminderDetail(detail: Title, reminder: _reminder) >> _TITLE_54ae
+
+			var _title = _TITLE_54ae
+
+			in = _reminder
+
+			/* ATN_reminderDetailTags */
+
+			var _tags = out
+
+			repeatEach(_tags) {
+
+				// level 3
+
+				var _tag = "${RepeatItem3}"
+				var _tag_basename = _tag
+
+				/* temporarily strip tag of any category prefix (if found) */
+
+				repeatEach(_tag_prefix_array) {
+
+					// level 4
+
+					var _tag_prefix = RepeatItem4
+
+					replaceText(input: "${_tag_basename}", find: "${_tag_prefix}", replace: "", isRegex: false, caseSensitive: false) >> _UPDATED_TEXT_ce88
+
+					_tag_basename = _UPDATED_TEXT_ce88
+
+				}
+
+				/* convert tag basename to emoji */
+
+				/* (default emoji that indicates potential need for new category definition) */
+
+				var _title_prefix = "${CONFIG_DICT.key(MODULES.1.DEFAULT_EMOJI)}"
+
+				repeatEach(_categories_array) {
+
+					// level 4
+
+					var _category = RepeatItem4
+
+					var _cat_tag_basename = "${_category.key(TAG_BASENAME)}"
+					var _cat_emoji = "${_category.key(EMOJI)}"
+
+					/* (WARNING-12c1 workaround) */
+
+					/* PATCH_b59e */
+
+					// pseudocode: if _tag_basename is _cat_tag_basename, set _title_prefix to _cat_emoji
+
+				}
+
+				/* update reminder title text */
+
+				var _title = "${_title_prefix} ${_title}"
+
+			}
+
+			/* set new reminder title */
+
+			in = _reminder
+			meta = _title
+
+			/* ATN_setReminderTitle */
+
+			/* update output */
+
+			var a += out
+
+		}
+
+		out = a
+
+	}
+
+}
+
+macro removeNotes(_reminders) {
+
+	if(RUN.as(Boolean)) {
+
+		MacroName = "removeNotes"
+		a = NULL
+
+		in = _reminders
+
+		/* ATN_combineTextNewLines */
+
+		/* Strip any notes from reminders in memory. */
+
+		repeatEach(_reminders) {
+
+			// level 2
+
+			in = RepeatItem2
+
+			/* ATN_removeReminderNotes */
+
+			var a += out
+
+		}
+
+		out = a
+
+	}
+
+}
+
+macro removeTags(_reminders) {
+
+	if(RUN.as(Boolean)) {
+
+		MacroName = "removeTags"
+		a = NULL
+
+		in = _reminders
+
+		/* ATN_combineTextNewLines */
+
+		/* Strip any tags from reminders in memory. */
+
+		repeatEach(_reminders) {
+
+			// level 2
+
+			in = RepeatItem2
+
+			/* ATN_removeReminderTags */
+
+			var a += out
+
+		}
+
+		out = a
+
+	}
+
+}
+
+macro previewList() {
+
+	if(RUN.as(Boolean)) {
+
+		MacroName = "previewList"
+
+		/* Sort shopping list (Read: Where 'name' is 'anything'). */
+
+		filterFiles(input: RAW_SHOPPING_LIST, filterType: All, filter: { Name : == : "" }, sortBy: Name, order: A to Z, limit: 999) >> _REMINDERS_6e17
+
+		text(text: "${EMOJI_DICT.key(right_arrow_curving_left)} [ Go Back ]") >> _TEXT_e8fd
+
+		var _list  = _REMINDERS_6e17
+		var _list += _TEXT_e8fd
+
+		choose(list: _list, prompt: "Shopping List:", multiple: false, all: false) >> _CHOSEN_ITEM_9040
+
+	}
+
+}
+
+macro makeDummyList() {
+
+	if(RUN.as(Boolean)) {
+
+		var MacroName = "makeDummyList"
+		var _list_name = "_CATEGORIES"
+
+		menu("Did you already create a list called '${_list_name}'?",["Yup!","No - take me back."]) {
+
+			case("Yup!"):
+
+				repeatEach(MODULES_ARRAY) {
+
+					// level 2
+
+					var _categories_array = RepeatItem2.key(CATEGORIES)
+
+					repeatEach(_categories_array) {
+
+						// level 3
+
+						var _tag_prefix = RepeatItem2.key(TAG_PREFIX)
+						var _separator = RepeatItem2.key(SEPARATOR)
+						var _tag_basename = RepeatItem3.key(TAG_BASENAME)
+
+						in = RepeatItem3.key(EXAMPLE_OUTPUT.1.item)
+						meta = _list_name
+
+						/* ATN_addReminderToList */
+
+						in = out
+						meta = "${_tag_prefix}${_separator}${_tag_basename}"
+
+						/* ATN_addReminderTag */
+
+					}
+
+				}
+
+				playSound()
+
+				alert(alert: "Done!", title: NIL, cancel: false)
+
+			case("No - take me back."):
+
+				alert(alert: "Please create a list called '${_list_name}' first.", title: NIL, cancel: false)
+
+		}
+
+	}
+
+}
+
+macro retagItem(_reminders_array) {
+
+	if(RUN.as(Boolean)) {
+
+		var MacroName = "retagItem"
+		var _categories_array = NULL
+		var _new_tag = NIL
+		var _tag_basename_array = NULL
+
+		/* Sort shopping list (Read: Where 'name' is 'anything'). */
+
+		filterFiles(input: _reminders_array, filterType: All, filter: { Name : == : "" }, sortBy: Name, order: A to Z, limit: 999) >> _REMINDERS_f172
+
+		choose(list: _REMINDERS_f172, prompt: "Which item?", multiple: false, all: false) >> _CHOSEN_ITEM_6739
+
+		var _reminder = _CHOSEN_ITEM_6739
+
+		repeatEach(MODULES_ARRAY) {
+
+			// level 2
+
+			var _module = RepeatItem2
+			var _categories_array = _module.key(CATEGORIES)
+			var _cat_tag_basename_array = NULL
+
+			repeatEach(_categories_array) {
+
+				// level 3
+
+				var _category = RepeatItem3
+
+				/* force as text (harden against typecasting-related bugs in Shortcuts when running Auto-build) */
+
+				text(text: "${_category.key(TAG_BASENAME)}") >> _TEXT_688c
+
+				var _cat_tag_basename = _TEXT_688c
+				var _cat_tag_basename_array += _cat_tag_basename
+
+			}
+
+			/* Sort tag basename list for current category (Read: Where 'name' is 'anything'). */
+
+			filterFiles(input: _cat_tag_basename_array, filterType: All, filter: { Name : == : "" }, sortBy: Name, order: A to Z, limit: 999) >> _TAG_BASENAMES_7085
+
+			var _tag_basename_array += _TAG_BASENAMES_7085
+
+		}
+
+		choose(list: _tag_basename_array, prompt: "Which tag (${_reminder})?", multiple: false, all: false) >> _CHOSEN_ITEM_a593
+
+		var _selected_tag_basename = "${_CHOSEN_ITEM_a593}"
+
+		repeatEach(MODULES_ARRAY) {
+
+			// level 2
+
+			var _module = RepeatItem2
+			var _tag_prefix = _module.key(TAG_PREFIX)
+			var _separator = _module.key(SEPARATOR)
+			var _categories_array = _module.key(CATEGORIES)
+
+			repeatEach(_categories_array) {
+
+				// level 3
+
+				var _category = RepeatItem3
+				var _found_tag_basename = "${_category.key(TAG_BASENAME)}"
+
+				/* (WARNING-12c1 workaround) */
+
+				// pseudocode: if _selected_tag_basename is _found_tag_basename, _new_tag is _tag_prefix _separator _found_tag_basename
+
+				/* PATCH_4084 */
+
+			}
+
+		}
+
+		in = _reminder
+
+		/* ATN_removeReminderTags */
+
+		in = out
+		meta = _new_tag
+
+		/* ATN_addReminderTag */
+
+		out = out
+
+	}
+
+}
+
+// helper macros
+
+macro showConfirmDialog() {
+
+	/* Confirm dialog: Ensure user receives feedback on successful execution of shortcut (prevent unintended double activation of shortcut on slower or low-power phones with unresponsive UI). */
+
+	s = "Forwarding first chunk of shopping items to ChatGPT (this might take a minute)..."
+
+	alert(alert: s, title: NIL, cancel: true)
+
+}
+
+macro logTrace(s) {
+
+	if(Elf.as(Number) >= 3) {
+
+		var _message_e847 = "[macro:\"${MacroName}\"]${n}${n}${s}"
+
+		/* (Note: Use alerts for speedier UI response, quicklook for scrolling large strings.) */
+
+		if(LongString.as(Number) == 0) {
+
+			alert(alert: "${_message_e847}", title: NIL, cancel: true)
+
+		}
+
+		/* else */
+
+		if(LongString.as(Number) == 1) {
+
+			quicklook(input: _message_e847)
+
+		}
+
+	}
+
+	/* Reset any override switches to defaults. */
+
+	LongString = f
+
+}
+
+macro logInfo(s) {
+
+	if(Elf.as(Number) >= 2) {
+
+		alert(alert: "[macro:\"${MacroName}\"]${n}${n}${s}", title: NIL, cancel: false)
+
+	}
+
+}
+
+macro logGPT(s) {
+
+	if(Elf.as(Number) >= 1) {
+
+		s = "[macro:\"${MacroName}\"]${n}${n}${s}"
+
+		/* (Note: Use alerts for speedier UI response, quicklook for scrolling large strings.) */
+
+		if(LongString.as(Number) == 0) {
+
+			alert(alert: "${s}", title: NIL, cancel: false)
+
+		}
+
+		/* else */
+
+		if(LongString.as(Number) == 1) {
+
+			quicklook(input: s)
+
+		}
+
+	/* Reset any override switches to defaults. */
+
+	LongString = f
+
+	}
+
+}
+
+macro test(in) {
+
+	if(in == nil) {
+
+		playSound()
+
+		alert(alert: "[macro:\"${MacroName}\"]${n}${n}Empty var (did you forget to run Auto-build?)", title: NIL, cancel: false)
+
+		exit(var: NIL)
+
+	}
+
+}
+
+// "main sequence" macros and functions
+
+macro main() {
+
+	init()
+
+	loadConfigFiles()
+
+	/* Main loop. */
+
+	var Loop = 100
+
+	if(m.as(Text) == "BATCH") {
+
+		/* Turn off menu loop when running in batch mode. */
+
+		Loop = 1
+
+	}
+
+	repeat(Loop) {
+
+		/* Init switches (wipe vars before each loop). */
+
+		var AddPrefixes = f
+		var ConfirmDialog = f
+		var Continue = f
+		var Elf = ELF
+		var FromAll = f
+		var FromMemory = f
+		var FromNew = f
+		var GetReminders = f
+		var Globals = GLOBALS
+		var MakeDummyList = f
+		var OpenList = f
+		var PlaySound = f
+		var PreviewList = f
+		var RemoveNotes = f
+		var RemovePrefixes = f
+		var RemoveTags = f
+		var RetagItem = f
+		var TagReminders = f
+
+		/* User mode: Main menu (ask user to set switches). */
+
+		if(m.as(Text) == "USER") {
+
+			// foobar (WARNING-8d27 workaround)
+
+			menu("Please select one:", ["📥 Auto-tag new items","✏️ Re-tag item","💥 Auto-tag all items","🧼 Remove all metadata from items","✅ Create dummy items with tags for smart lists","🌷 Refresh item prefixes","👁️ Preview shopping list","🥕 Open shopping list","🏃 Exit"]) {
+
+				case("Auto-tag new items"):
+
+					GetReminders = t
+					FromNew = t
+					TagReminders = t
+					ConfirmDialog = GLOBALS.key(CONFIRM_DIALOG)
+
+				case("Re-tag item"):
+
+					GetReminders = t
+					FromAll = t
+					RetagItem = t
+
+				case("Auto-tag all items"):
+
+					GetReminders = t
+					FromAll = t
+					TagReminders = t
+					ConfirmDialog = GLOBALS.key(CONFIRM_DIALOG)
+
+				case("Remove all metadata from items"):
+
+					GetReminders = t
+					FromAll = t
+					RemovePrefixes = t
+					RemoveNotes = t
+					RemoveTags = t
+
+				case("Create dummy items with tags for smart lists"):
+
+					MakeDummyList = t
+
+				case("Refresh item prefixes"):
+
+					GetReminders = t
+					FromAll = t
+					RemovePrefixes = t
+					AddPrefixes = t
+					PlaySound = t
+
+				case("Preview shopping list"):
+
+					GetReminders = t
+					FromAll = t
+					PreviewList = t
+
+				case("Open shopping list"):
+
+					OpenList = t
+
+				case("Exit"):
+
+					exit(var: NIL)
+
+			}
+
+		}
+
+		/* Batch mode: Pre-populate switches. */
+
+		if(m.as(Text) == "BATCH") {
+
+			GetReminders = t
+			FromMemory = t
+			TagReminders = t
+
+		}
+
+		if(GetReminders.as(Boolean)) {
+
+			Continue = t
+
+			getRawShoppingList()
+
+		}
+
+		if(Continue.as(Number) == 0) {
+
+			TagReminders = f
+			RemovePrefixes = f
+			RemoveNotes = f
+
+		}
+
+		if(TagReminders.as(Boolean)) {
+
+			getRawChunk()
+
+			assignChunkItemIDs()
+
+			getPromptOutline()
+
+			getPromptExampleInput()
+
+			getPromptExampleOutput()
+
+			getPromptTagNames()
+
+			getPromptFormattedChunk()
+
+			getPromptAdditionalRules()
+
+			buildPrompt()
+
+			askChatGPT()
+
+			tagChunkItems()
+
+			endStep()
+
+		}
+
+		var Reminders = RAW_SHOPPING_LIST
+
+		if(RetagItem.as(Boolean)) {
+
+			retagItem(Reminders)
+
+			Reminders = out
+			RemovePrefixes = t
+			AddPrefixes = t
+
+		}
+
+		if(RemovePrefixes.as(Boolean)) {
+
+			removePrefixes(Reminders)
+
+			Reminders = out
+
+		}
+
+		if(RemoveNotes.as(Boolean)) {
+
+			removeNotes(Reminders)
+
+			Reminders = out
+
+		}
+
+		if(RemoveTags.as(Boolean)) {
+
+			removeTags(Reminders)
+
+			Reminders = out
+
+		}
+
+		if(AddPrefixes.as(Boolean)) {
+
+			addPrefixes(Reminders)
+
+			Reminders = out
+
+		}
+
+		if(MakeDummyList.as(Boolean)) {
+
+			makeDummyList()
+
+		}
+
+		if(PreviewList.as(Boolean)) {
+
+			previewList()
+
+		}
+
+		if(PlaySound.as(Boolean)) {
+
+			playSound()
+			alert(alert: "Done!", title: NIL, cancel: false)
+
+		}
+
+		if(OpenList.as(Boolean)) {
+
+			in = GLOBALS.key(REMINDERS_LIST_NAME)
+
+			/* ATN_showRemindersList */
+
+			exit(var: NIL)
+
+		}
+
+	}
+
+}
+
+/*
+
+Categorize Shopping version: 8.0
+Jellycuts version: 1.4
+Auto-build version: 1.0 (based on Join Shortcuts by @gluebyte)
+
+*/
+
+/* (Ensure ChatGPT is logged in.) */
+
+/* ATN_openChatGPT */
+
+var RUN = 1
+
+repeatEach(ShortcutInput) {
+
+	// level 1
+
+	getType(input: RepeatItem) >> TYPE_396b
+
+	if(TYPE_396b.as(Text) == "Dictionary") {
+
+		var c = RepeatItem.key(FUNCTION_CALL_NAME)
+
+		if(c.as(Text) != nil) {
+
+			var FUNCTION_CALL_NAME = RepeatItem.key(FUNCTION_CALL_NAME)
+			var INPUT = RepeatItem.key(INPUT)
+
+		}
+
+	}
+
+}
+
+if(FUNCTION_CALL_NAME.as(Text) == "funcA") {
+
+	/* insert function logic here */
+
+	var foobar = "foobar"
+
+	exit(var: foobar)
+
+}
+
+if(FUNCTION_CALL_NAME.as(Text) == "funcB") {
+
+	/* insert function logic here */
+
+	var foobar = "foobar"
+
+	exit(var: foobar)
+
+}
+
+main()
