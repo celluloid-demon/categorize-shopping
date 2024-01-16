@@ -667,11 +667,11 @@ macro askChatGPT() {
 
 		if(_DICT_7a57 == nil) {
 
-			/* Probably dealing with markdown in ChatGPT's response. */
+			/* Probably dealing with markdown in ChatGPT's response, tesing for ```json...```. */
 
-			text(text: "(?s)(?<=```json\n).*?(?=\n```)") >> _ICU_REGEX_efc5
+			text(text: "(?<=```json)[\s\S]*?(?=```)") >> _ICU_REGEX_efc5
 
-			matchText(text: "${_response}", regex: "${_ICU_REGEX_efc5}", caseSensitive: true) >> _MATCHES_95c8
+			matchText(text: "${_response}", regex: "${_ICU_REGEX_efc5}", caseSensitive: false) >> _MATCHES_95c8
 
 			/* Second attempt to validate JSON data before we use it to tag our shopping list. */
 
@@ -687,13 +687,35 @@ macro askChatGPT() {
 
 			if(_DICT_dff4 == nil) {
 
-				playSound()
+				/* ```json...``` didn't work, one final test for ```...```. */
 
-				alert(alert: "Final JSON sanity check failed, terminating...", title: NIL, cancel: false)
+				text(text: "(?<=```)[\s\S]*?(?=```)") >> _ICU_REGEX_18a1
 
-				quicklook(input: _response)
+				matchText(text: "${_response}", regex: "${_ICU_REGEX_18a1}", caseSensitive: false) >> _MATCHES_4277
 
-				exit(var: NIL)
+				/* Third attempt to validate JSON data before we use it to tag our shopping list. */
+
+				getDictionaryFrom(input: _MATCHES_4277) >> _DICT_a420
+
+				if(_DICT_a420 != nil) {
+
+					var TAGGED_CHUNK_DICT = _DICT_a420
+
+				}
+
+				/* else */
+
+				if(_DICT_a420 == nil) {
+
+					playSound()
+
+					alert(alert: "Final JSON sanity check failed, terminating...", title: NIL, cancel: false)
+
+					quicklook(input: _response)
+
+					exit(var: NIL)
+
+				}
 
 			}
 
