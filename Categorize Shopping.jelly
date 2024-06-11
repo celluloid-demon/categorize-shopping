@@ -72,7 +72,7 @@ macro init() {
 		(d)ictionary
 		(in)put
 		(meta)data: used for auto-build actions that require extra input of different types
-		(n)umber
+		(n)umber (deprecated, alias currently uses this name to provide newline character)
 		(out)put
 		(s)tring
 
@@ -1320,6 +1320,7 @@ macro retagItem(_reminders_array) {
 
 				// pseudocode: if _selected_tag_basename is _found_tag_basename, _new_tag is _tag_prefix _separator _found_tag_basename
 
+				// todo patch's if-statement not performant in context of this loop?
 				/* PATCH_4084 */
 
 			}
@@ -1556,6 +1557,8 @@ macro main() {
 
 		}
 
+		/* BEGIN switch processing */
+
 		if(GetReminders.as(Boolean)) {
 
 			Continue = t
@@ -1685,7 +1688,7 @@ Auto-build version: 1.0 (based on Join Shortcuts by @gluebyte)
 
 */
 
-/* (Ensure ChatGPT is logged in.) */
+/* (Ensure ChatGPT is logged in - todo deprecated now? Login is supposedly optional...) */
 
 /* ATN_openChatGPT */
 
